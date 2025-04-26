@@ -1,0 +1,56 @@
+<% layout('layouts/boilerplate') %>
+<style>
+  .head-content {
+    display: flex;
+  }
+  .back-btn {
+    text-decoration: none;
+    background-color: black !important;
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 1rem !important;
+  }
+  .table-responsive {
+    margin-left: 20rem;
+    margin-right: 20rem;
+    margin-top: 10px !important;
+  }
+
+  .leader-heading {
+    margin: 0 !important;
+    margin-left: 8.5rem !important;
+  }
+</style>
+
+<!-- Leaderboard Title -->
+<div class="mt-1 head-content">
+  <a href="/quizzes" class="btn back-btn">← Back to Home </a>
+  <h1 class="display-5 leader-heading">Leaderboard for <%= quiz.title %></h1>
+</div>
+
+<!-- Leaderboard Table -->
+<div class="container mt-5">
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>Rank</th>
+          <th>User</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% sortedScores.forEach((score, index) => { %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= score.user.username %></td>
+          <td><%= score.score %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

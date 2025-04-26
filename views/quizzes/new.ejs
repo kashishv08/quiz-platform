@@ -1,0 +1,65 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .create-btn {
+    background-color: #c4121e !important;
+    color: white !important;
+  }
+</style>
+<div class="row mt-0">
+  <div class="col-8 offset-2">
+    <br />
+    <h3>Create a New Quiz</h3>
+    <form
+      action="/examiners"
+      method="POST"
+      class="needs-validation"
+      novalidate
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Quiz Title</label>
+        <input
+          type="text"
+          name="quiz[title]"
+          class="form-control"
+          placeholder="Add a catchy title"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Quiz Description</label>
+        <textarea
+          name="quiz[description]"
+          class="form-control"
+          rows="3"
+          required
+        ></textarea>
+        <div class="invalid-feedback">Please add a short description</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Upload Quiz Image</label>
+        <input type="file" name="image" class="form-control" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select name="quiz[category]" class="form-control" required>
+          <option value="">-- Select a Category --</option>
+          <option value="science">Science</option>
+          <option value="math">Math</option>
+          <option value="history">History</option>
+          <option value="technology">Technology</option>
+          <option value="geography">Geography</option>
+          <option value="general">General Knowledge</option>
+        </select>
+        <div class="invalid-feedback">Please select a category</div>
+      </div>
+
+      <button class="btn mb-3 create-btn">Create Quiz</button>
+    </form>
+  </div>
+</div>

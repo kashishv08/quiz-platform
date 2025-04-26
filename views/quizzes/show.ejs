@@ -1,0 +1,176 @@
+<style>
+  .quiz-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .quiz-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
+
+  .quiz-body {
+    padding: 20px;
+  }
+
+  .quiz-title {
+    font-size: 2rem;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .quiz-description {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+
+  .quiz-meta {
+    font-size: 1rem;
+    color: #777;
+  }
+
+  .quiz-questions {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two questions per row */
+    gap: 20px;
+  }
+
+  .quiz-question {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .question-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+
+  .question-options {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .option {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background-color: #f1f1f1;
+    color: #333;
+    transition: background-color 0.3s;
+  }
+
+  .option:hover {
+    background-color: #f0f0f0;
+  }
+
+  .correct-answer {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .quiz-actions {
+    text-align: center;
+  }
+  .ques-heading {
+    margin-left: 10px;
+  }
+
+  .btn {
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .edit-btn {
+    background-color: black !important;
+    color: white !important;
+    margin-right: 10px;
+    margin-bottom: 15px;
+  }
+
+  .dlt-btn {
+    background-color: #c4121e !important;
+    color: white !important;
+    margin-right: 10px;
+    margin-bottom: 15px;
+  }
+</style>
+
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-0">
+  <!-- Quiz Details Section: Title, Image, Category, Owner, Description -->
+  <div class="row justify-content-center">
+    <div class="col-md-8 mb-4">
+      <div class="quiz-card">
+        <img src="<%= quiz.image.url %>" class="quiz-image" alt="Quiz Image" />
+        <div class="quiz-body">
+          <h2 class="quiz-title"><%= quiz.title %></h2>
+          <p class="quiz-description"><%= quiz.description %></p>
+          <div class="quiz-meta">
+            <p><strong>Category:</strong> <%= quiz.category %></p>
+            <p><strong>Owner:</strong> <%= quiz.owner.username %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Questions Section: Display Questions Below Image Card -->
+  <div class="row">
+    <div class="col-md-12">
+      <h3 class="ques-heading">Questions:</h3>
+      <div class="quiz-questions">
+        <% quiz.questions.forEach((q, i) => { %>
+        <div class="quiz-question">
+          <h5 class="question-text"><%= q.questionText %></h5>
+          <ul class="question-options">
+            <% q.options.forEach((opt, idx) => { %>
+            <li
+              class="option <% if (idx === q.correctAnswerIndex) { %>correct-answer<% } %>"
+            >
+              <%= opt %> <% if (idx === q.correctAnswerIndex) {
+              %><strong>(Correct)</strong><% } %>
+            </li>
+            <% }) %>
+          </ul>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+
+  <% if (currentUser && quiz.owner && quiz.owner.equals(currentUser._id)) { %>
+  <!-- Edit and Delete Buttons (visible only to quiz owner) -->
+  <div class="quiz-actions mt-4">
+    <a href="/examiners/<%= quiz._id %>/edit" class="btn edit-btn">Edit</a>
+
+    <form
+      action="/examiners/<%= quiz._id %>?_method=DELETE"
+      method="POST"
+      style="display: inline"
+    >
+      <button
+        type="submit"
+        class="btn dlt-btn"
+        onclick="return confirm('Are you sure you want to delete this quiz?')"
+      >
+        Delete
+      </button>
+    </form>
+  </div>
+  <% } %>
+</div>

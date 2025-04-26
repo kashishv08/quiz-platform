@@ -1,0 +1,76 @@
+<style>
+  .d-flex.align-items-center a:hover {
+    text-decoration: underline;
+  }
+  .navbar {
+    background-color: white !important;
+  }
+  /* .search-inp {
+    border: 1px solid black !important;
+    border-radius: 25px !important;
+    width: 200px;
+  }
+  .search-btn {
+    border: none !important;
+    border-radius: 25px !important;
+    background-color: #c4121e !important;
+    color: white !important;
+  } */
+  .btn-login,
+  .logout-btn{
+    background-color: #c4121e !important; 
+    color: white !important;
+    border: none!important;
+    }
+</style>
+
+<nav class="navbar navbar-expand-md border-bottom sticky-top">
+  <div
+    class="container-fluid d-flex justify-content-between align-items-center"
+  >
+    <!-- Left: Logo/Icon -->
+    <a class="navbar-brand" href="/quizzes" style="text-decoration: none">
+      <i class="fa-solid fa-brain" style="color: #c4121e; font-size: 2rem"></i>
+      <span class="ms-2" style="color: #333; font-size: 2rem"
+        ><strong><i>Lets</i>Quiz</strong></span
+      >
+    </a>
+
+    <!-- Center: Search Bar
+    <div class="flex-grow-1 mx-4" style="max-width: 600px">
+      <form class="d-flex justify-content-center" role="search">
+        <input
+          class="form-control me-2 search-inp"
+          type="search"
+          placeholder="Search quizzes"
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-success search-btn" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>&nbsp;Search
+        </button>
+      </form>
+    </div> -->
+
+<div class="d-flex align-items-center gap-3">
+  <% if (!currentUser) { %>
+  <a href="/users/signup" class="btn btn-link text-dark fw-semibold">
+    <i class="fa-solid fa-user-plus me-1"></i>Sign up
+  </a>
+  <a href="/users/login" class="btn btn-dark px-3 py-1 rounded-pill btn-login" style="text-decoration: none;">
+    <i class="fa-solid fa-right-to-bracket me-1"></i>Log in
+  </a>
+  <% } else { %>
+  <a href="/examiners/new" class="btn btn-outline-dark px-3 py-1 rounded-pill" style="text-decoration: none;">
+    <i class="fa-solid fa-plus me-1"></i>Create Quiz
+  </a>
+  <span class="text-muted fw-medium">
+    <i class="fa-solid fa-user-circle me-1"></i><%= currentUser.username %>
+  </span>
+  <a href="/users/logout" class="btn btn-danger px-3 py-1 rounded-pill logout-btn" style="text-decoration: none;">
+    <i class="fa-solid fa-arrow-right-from-bracket me-1"></i>Log out
+  </a>
+  <% } %>
+</div>
+
+
+</nav>

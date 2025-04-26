@@ -1,0 +1,39 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .quiz-card {
+    transition: transform 0.2s ease-in-out;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .quiz-card:hover {
+    transform: scale(1.03);
+  }
+</style>
+
+<body>
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 mt-0">
+    <% quizzes.forEach(quiz => { %>
+    <a
+      href="<%= currentUser && currentUser._id.toString() === quiz.owner._id.toString() ? `/examiners/${quiz._id}` : `/quizzes/${quiz._id}/attempt` %>"
+      class="text-decoration-none text-dark"
+    >
+      <div class="card h-100 quiz-card">
+        <% if (quiz.image && quiz.image.url) { %>
+        <img
+          src="<%= quiz.image.url %>"
+          class="card-img-top"
+          alt="Quiz Image"
+          style="height: 15rem; object-fit: cover"
+        />
+        <% } %>
+        <div class="card-body">
+          <h5 class="card-title"><%= quiz.title %></h5>
+          <p class="card-text"><%= quiz.description %></p>
+        </div>
+      </div>
+    </a>
+    <% }); %>
+  </div>
+</body>

@@ -1,0 +1,111 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+  .quiz-page {
+    max-width: 900px;
+    padding: 1.5rem;
+  }
+
+  .quiz-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .quiz-header h1 {
+    font-size: 28px;
+    color: #333;
+    margin-left: 10rem;
+  }
+
+  .quiz-content {
+    margin-left: 20rem;
+  }
+
+  .back-link {
+    text-decoration: none;
+    background-color: black;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  fieldset {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  legend {
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  input[type='radio'] {
+    margin-right: 8px;
+  }
+
+  .submit-btn {
+    background-color: #c4121e !important;
+    color: white !important;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+
+<div class="quiz-page">
+  <div class="quiz-header">
+    <a href="/quizzes" class="back-link">← Back to Quizzes</a>
+    <h1>Take the Quiz: <%= quiz.title %></h1>
+  </div>
+
+  <div class="quiz-content">
+    <form
+      action="/quizzes/<%= quiz._id %>/submit"
+      method="POST"
+      class="needs-validation"
+      novalidate
+    >
+      <% quiz.questions.forEach(function(question, idx) { %>
+      <fieldset>
+        <legend><%= question.questionText %></legend>
+        <% question.options.forEach(function(option, i) { %>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="answers[<%= idx %>]"
+            value="<%= i %>"
+            id="q<%= idx %>opt<%= i %>"
+            required
+          />
+          <label class="form-check-label" for="q<%= idx %>opt<%= i %>">
+            <%= option %>
+          </label>
+        </div>
+        <% }); %>
+        <div class="invalid-feedback d-block">
+          Please select an option for this question.
+        </div>
+      </fieldset>
+      <% }); %>
+
+      <button type="submit" class="submit-btn">Submit Quiz</button>
+    </form>
+  </div>
+</div>
