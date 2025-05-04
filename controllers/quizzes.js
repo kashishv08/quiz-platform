@@ -2,7 +2,12 @@ const Quiz = require("../models/quiz");
 const mongoose = require("mongoose");
 
 module.exports.listQuizzes = async (req, res) => {
-  const quizzes = await Quiz.find({}).populate("owner");
+  await Quiz.deleteMany({
+    "questions.0": { $exists: false },
+  });
+  const quizzes = await Quiz.find({
+    "questions.0": { $exists: true },
+  }).populate("owner");
   res.render("quizzes/index", { quizzes, currentUser: req.user });
 };
 
@@ -35,6 +40,11 @@ module.exports.submitQuiz = async (req, res) => {
   }
 
   const answers = req.body.answers;
+  if (!answers) {
+    // No answers submitted, send error back
+    req.flash("error", "You must answer at least one question.");
+    return res.redirect(`/quizzes/${quiz._id}/attempt`);
+  }
   let score = 0;
 
   // Loop through the questions and calculate the score

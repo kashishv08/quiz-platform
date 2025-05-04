@@ -1,17 +1,5 @@
 <% layout("/layouts/boilerplate") %>
 
-<style>
-  .quiz-card {
-    transition: transform 0.2s ease-in-out;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  .quiz-card:hover {
-    transform: scale(1.03);
-  }
-</style>
-
 <body>
   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 mt-0">
     <% quizzes.forEach(quiz => { %>

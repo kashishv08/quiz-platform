@@ -1,0 +1,38 @@
+.all-ques {
+  padding: 10px;
+  margin-left: 10px;
+}
+.add-ques-btn {
+  background-color: black !important;
+  border: none !important;
+  margin-left: 24rem;
+  width: 10px 40px;
+}
+.finish-btn {
+  margin-left: 24rem;
+  width: 10px 40px;
+  background-color: #c4121e !important;
+  border: none;
+}
+.added-ques {
+  padding: 10px;
+}
+.each-ques {
+  margin-bottom: 9px;
+  display: flex;
+  justify-content: space-between;
+  border: 0.5px ridge rgb(243, 242, 242);
+  border-radius: 5px;
+  padding: 5px;
+}
+.edit-btn-show {
+  background-color: white;
+  color: black !important;
+}
+.dlt-btn-show {
+  background-color: white;
+  color: #c4121e !important;
+}
+.edit-del-btn {
+  display: flex;
+}

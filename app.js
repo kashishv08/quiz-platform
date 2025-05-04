@@ -16,6 +16,7 @@ const User = require("./models/user");
 const userRoutes = require("./routes/user");
 const quizRoutes = require("./routes/quizzes");
 const examinerRoutes = require("./routes/examiners");
+const indexRoutes = require("./routes/index");
 
 // mongoose.connect("mongodb://127.0.0.1:27017/quizDB");
 
@@ -81,6 +82,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/", indexRoutes);
 app.use("/users", userRoutes);
 app.use("/quizzes", quizRoutes);
 app.use("/examiners", examinerRoutes);

@@ -121,6 +121,14 @@ module.exports.updateQuiz = async (req, res) => {
     };
   }
 
+  if (req.body.quiz.questions && Array.isArray(req.body.quiz.questions)) {
+    quiz.questions = req.body.quiz.questions.map((q) => ({
+      questionText: q.questionText,
+      options: Array.isArray(q.options) ? q.options : [],
+      correctAnswerIndex: parseInt(q.correctAnswerIndex) - 1,
+    }));
+  }
+
   await quiz.save();
   req.flash("success", "Quiz updated successfully!");
   res.redirect(`/examiners/${id}`);
@@ -157,4 +165,68 @@ module.exports.finishQuiz = async (req, res) => {
 
   req.flash("success", "Quiz finished successfully!");
   res.redirect(`/examiners/${id}`);
+};
+
+module.exports.renderEditQuestionForm = async (req, res) => {
+  const { id, index } = req.params;
+  const quiz = await Quiz.findById(id);
+  if (!quiz || !quiz.questions[index]) {
+    req.flash("error", "Question not found!");
+    return res.redirect(`/examiners/${id}/add-question`);
+  }
+
+  const question = quiz.questions[index];
+  res.render("quizzes/edit-question", { quizId: id, index, question });
+};
+
+module.exports.updateQuestion = async (req, res) => {
+  const { id, index } = req.params;
+  const { questionText, options, correctAnswerIndex } = req.body;
+
+  const quiz = await Quiz.findById(id);
+  if (!quiz || !quiz.questions[index]) {
+    req.flash("error", "Question not found!");
+    return res.redirect(`/examiners/${id}/add-question`);
+  }
+
+  const trimmedOptions = options
+    .split(",")
+    .map((opt) => opt.trim())
+    .filter(Boolean);
+  const parsedIndex = parseInt(correctAnswerIndex) - 1;
+
+  if (
+    !questionText ||
+    trimmedOptions.length === 0 ||
+    isNaN(parsedIndex) ||
+    parsedIndex < 0 ||
+    parsedIndex >= trimmedOptions.length
+  ) {
+    req.flash("error", "Invalid input. Please correct the question.");
+    return res.redirect(`/examiners/${id}/edit-question/${index}`);
+  }
+
+  quiz.questions[index] = {
+    questionText,
+    options: trimmedOptions,
+    correctAnswerIndex: parsedIndex,
+  };
+
+  await quiz.save();
+  req.flash("success", "Question updated!");
+  res.redirect(`/examiners/${id}/add-question`);
+};
+
+module.exports.deleteQuestion = async (req, res) => {
+  const { id, index } = req.params;
+  const quiz = await Quiz.findById(id);
+  if (!quiz || !quiz.questions[index]) {
+    req.flash("error", "Question not found!");
+    return res.redirect(`/examiners/${id}/add-question`);
+  }
+
+  quiz.questions.splice(index, 1); // Remove question by index
+  await quiz.save();
+  req.flash("success", "Question deleted!");
+  res.redirect(`/examiners/${id}/add-question`);
 };

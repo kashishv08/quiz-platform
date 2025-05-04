@@ -142,3 +142,9 @@ h3 {
     margin-bottom: 10px;
   }
 }
+
+body.landing-page div.container {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: 100% !important;
+}

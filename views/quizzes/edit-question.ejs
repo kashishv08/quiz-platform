@@ -1,0 +1,41 @@
+<% layout('layouts/boilerplate') %>
+
+<h3>Edit Question for Quiz</h3>
+
+<form
+  action="/examiners/<%= quizId %>/edit-question/<%= index %>"
+  method="POST"
+  novalidate
+>
+  <label for="questionText">Question</label>
+  <input
+    type="text"
+    name="questionText"
+    required
+    class="form-control"
+    value="<%= question.questionText %>"
+  />
+
+  <label for="options">Options (comma separated)</label>
+  <input type="text" name="options" required class="form-control" value="<%=
+  question.options.join(", ") %>" />
+
+  <label for="correctAnswerIndex">Correct Answer Index (1-based)</label>
+  <input
+    type="number"
+    name="correctAnswerIndex"
+    required
+    class="form-control"
+    min="1"
+    max="<%= question.options.length %>"
+    value="<%= question.correctAnswerIndex + 1 %>"
+  />
+
+  <button
+    type="submit"
+    class="btn mt-3"
+    style="background-color: #c4121e; color: white"
+  >
+    Update Question
+  </button>
+</form>

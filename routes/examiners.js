@@ -38,4 +38,24 @@ router.put(
 router.delete("/:id", isLoggedIn, isQuizOwner, examinerCtrl.deleteQuiz);
 router.get("/:id", isLoggedIn, examinerCtrl.viewQuiz);
 
+router.get(
+  "/:id/edit-question/:index",
+  isLoggedIn,
+  isQuizOwner,
+  examinerCtrl.renderEditQuestionForm
+);
+router.post(
+  "/:id/edit-question/:index",
+  isLoggedIn,
+  isQuizOwner,
+  examinerCtrl.updateQuestion
+);
+
+router.post(
+  "/:id/delete-question/:index",
+  isLoggedIn,
+  isQuizOwner,
+  examinerCtrl.deleteQuestion
+);
+
 module.exports = router;

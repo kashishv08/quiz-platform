@@ -1,0 +1,56 @@
+.leaderboard-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.back-btn {
+  text-decoration: none;
+  background-color: #212529 !important;
+  color: white !important;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none !important;
+}
+
+.leader-heading {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.table thead th {
+  background-color: #343a40;
+  color: white;
+}
+
+.table tbody td {
+  font-size: 16px;
+}
+@media (max-width: 576px) {
+  .leader-heading {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .back-btn {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
+  .table thead {
+    font-size: 14px;
+  }
+
+  .table tbody td {
+    font-size: 14px;
+  }
+}

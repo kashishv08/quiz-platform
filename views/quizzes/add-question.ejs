@@ -1,29 +1,3 @@
-<style>
-  .all-ques {
-    padding: 10px;
-    margin-left: 10px;
-  }
-  .add-ques-btn {
-    background-color: black !important;
-    border: none !important;
-    margin-left: 24.6rem;
-    width: 10px 40px;
-  }
-  .finish-btn {
-    margin-left: 24.6rem;
-    width: 10px 40px;
-
-    background-color: #c4121e !important;
-    border: none;
-  }
-  .added-ques {
-    padding: 10px;
-  }
-  .each-ques {
-    margin-bottom: 9px;
-  }
-</style>
-
 <% layout('layouts/boilerplate') %>
 
 <div class="d-flex justify-content-between align-items-start mb-3 mt-3">
@@ -48,6 +22,8 @@
         name="correctAnswerIndex"
         required
         class="form-control"
+        min="1"
+        max="4"
       />
 
       <button type="submit" class="btn btn-primary mt-3 add-ques-btn">
@@ -64,13 +40,40 @@
     <% if (quiz.questions.length > 0) { %>
     <ul class="list-unstyled">
       <% quiz.questions.forEach((q, index) => { %>
-      <li class="each-ques">
-        <strong>Q<%= index + 1 %>:</strong> <%= q.questionText %> <br />
-        Options: <%= q.options.join(", ") %> <br />
-        Correct Answer Index: <%= q.correctAnswerIndex %>
+      <li class="each-ques mb-3">
+        <div class="ques-content">
+          <strong>Q<%= index + 1 %>:</strong> <%= q.questionText %> <br />
+          Options: <%= q.options.join(", ") %> <br />
+          Correct Answer Index: <%= q.correctAnswerIndex %>
+        </div>
+
+        <div class="mt-2 edit-del-btn">
+          <!-- Edit button -->
+          <form
+            action="/examiners/<%= quiz._id %>/edit-question/<%= index %>"
+            method="GET"
+            class="d-inline"
+          >
+            <button type="submit" class="btn btn-sm edit-btn-show">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </form>
+
+          <!-- Delete button-->
+          <form
+            action="/examiners/<%= quiz._id %>/delete-question/<%= index %>"
+            method="POST"
+            class="d-inline"
+          >
+            <button type="submit" class="btn btn-sm dlt-btn-show">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </form>
+        </div>
       </li>
       <% }) %>
     </ul>
+
     <% } else { %>
     <p>No questions added yet.</p>
     <% } %>
